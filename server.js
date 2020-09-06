@@ -1,6 +1,7 @@
 var http = require('http');
 var path = require('path');
 var url = require('url');
+var fs = require('fs');
 
 var pages = [
  { id: '1', route: '', output: 'Woohoo!'},
@@ -8,21 +9,18 @@ var pages = [
  { id: '3', route: 'another-page', output: function() {return "Here\'s " +this.route;}},
 ];
 
+var mimeTypes = {
+    '.js' : 'text/javascript',
+    '.html' : 'text/html',
+    '.css' : 'text/css'
+};
 
 http.createServer(function(req, res){    
-     var id = url.parse(decodeURI(req.url), true).query.id;
-     if(id){
-        pages.forEach(function(page) {       
-        if (page.id === id) {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.end(typeof page.output === 'function'  ? page.output() : page.output);
-        }
-        });    
-     }
+     var lookup = path.basename(decodeURI(req.url)) || 'index.html';
+     var f = './' + lookup;
 
-    if(!res.finished){
-        res.writeHead(404);
-        res.end('Page Not Found');
-    }     
+     fs.exists(f, function(exists){
+         console.log(exists ? lookup + " is there" : lookup + " doesn't exsit");
+     })
     
 }).listen(8080);
