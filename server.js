@@ -1,21 +1,24 @@
+var http = require('http');
+var path = require('path');
+var url = require('url');
+
 var pages = [
- {route: '', output: 'Woohoo!'},
- {route: 'about', output: 'A simple routing with Node example'},
- {route: 'another-page', output: function() {return "Here\'s " +this.route;}},
+ { id: '1', route: '', output: 'Woohoo!'},
+ { id: '2', route: 'about', output: 'A simple routing with Node example'},
+ { id: '3', route: 'another-page', output: function() {return "Here\'s " +this.route;}},
 ];
 
 
-var http = require('http');
-var path = require('path');
-
-http.createServer(function(req, res){
-     var lookup = path.basename(decodeURI(req.url));
-     pages.forEach(function(page) {       
-     if (page.route === lookup) {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.end(typeof page.output === 'function'  ? page.output() : page.output);
+http.createServer(function(req, res){    
+     var id = url.parse(decodeURI(req.url), true).query.id;
+     if(id){
+        pages.forEach(function(page) {       
+        if (page.id === id) {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(typeof page.output === 'function'  ? page.output() : page.output);
+        }
+        });    
      }
-    });    
 
     if(!res.finished){
         res.writeHead(404);
