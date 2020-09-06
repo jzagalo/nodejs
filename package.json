@@ -1,0 +1,16 @@
+{
+  "name": "nodepj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "supervisor ./server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
