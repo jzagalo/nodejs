@@ -1,16 +1,12 @@
 var http = require('http');
 var path = require('path');
 var connect = require('connect');
-var bodyParser = require('body-parser');
 var formidable = require('formidable');
 var url = require('url');
 var fs = require('fs');
 var util = require('util');
 var querystring = require('querystring');
 var form = require('fs').readFileSync('put_upload_form.html');
-var maxData = 2 * 1024 * 1024;
-
-
 
 http.createServer(function(request, response){
     if(request.method === "PUT"){
