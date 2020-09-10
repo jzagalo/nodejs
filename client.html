@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="msg">
+    <button id="send">Send</button>
+    <div id="output"></div>
+<script>
+    (function(){
+        var ws = new WebSocket("ws://localhost:3000"),
+        output = document.getElementById('output'),
+        send = document.getElementById('send');
+
+        function logStr(eventStr, msg){
+            return '<div>' + eventStr + ': ' + msg + '</div>';
+        }
+
+        send.addEventListener('click', function(event){
+            var msg = document.getElementById('msg').value;
+            console.log(event);
+            ws.send(msg);
+            output.innerHTML += logStr('Received', event.data);
+        });
+
+        ws.onmessage = function(event) {
+            output.innerHTML += logStr('Recieved', event.data);
+        };
+
+        ws.onclose = function(event){
+            output.innerHTML += logStr('Disconnected', event.code + '-' + event.type);
+        };
+
+        ws.onerror = function(event){
+            output.innerHTML += logStr('Error', event.data);
+        }; 
+    }());
+</script>
+</body>
+</html>
