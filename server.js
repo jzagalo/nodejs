@@ -1,28 +1,16 @@
-var WSServer = require('ws').Server;
 var http = require('http');
-var fs = require('fs');
-var index = fs.readFileSync('./client.html');
+var clientHtml = require('fs').readFileSync('./client.html');
 
+var plainHttpServer = http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-type': 'text/html'});
+    res.end(clientHtml);
+}).listen(8080);
 
-var server = http.createServer("/", function(req, res){     
-    res.end(index);
-});
-
-var wss = new WSServer({ server });
-console.log(wss);
-wss.on('connection', function(socket, req) { 
-    socket.on('message', function(msg){
-        console.log('Recieved: ', msg, '\n', 'From IP: ',  req.socket.remoteAddress);
-
-        if(msg === 'Hello'){
-            socket.send("Websockets!");
+var io = require('socket.io').listen(plainHttpServer);
+io.sockets.on('connection', function(socket){
+    socket.on('message', function(msg){        
+        if(msg === "Hello"){            
+            socket.send('socket.io!');
         }
-    });
-
-    socket.on('close', function(code, desc){
-        console.log('Disconnect: ' + code + ' - ' + desc);
-    });   
-     
-});
-
-server.listen(3000);
+    })
+})

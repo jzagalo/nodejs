@@ -3,39 +3,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <input type="text" id="msg">
     <button id="send">Send</button>
     <div id="output"></div>
 <script>
-    (function(){
-        var ws = new WebSocket("ws://localhost:3000"),
-        output = document.getElementById('output'),
-        send = document.getElementById('send');
+    (function() {
 
-        function logStr(eventStr, msg){
-            return '<div>' + eventStr + ': ' + msg + '</div>';
-        }
+    var socket = io.connect("ws://localhost:8080"),
+    output = document.getElementById('output'),
+    send = document.getElementById('send');
 
+    function logStr(eventStr, msg){
+        return '<div>' + eventStr + ': ' + msg + '</div>';
+    }
+
+    socket.on('connect', function(){ 
         send.addEventListener('click', function(event){
-            var msg = document.getElementById('msg').value;
-            console.log(event);
-            ws.send(msg);
-            output.innerHTML += logStr('Received', event.data);
+            var msg = document.getElementById('msg').value;            
+            socket.send(msg);           
         });
 
-        ws.onmessage = function(event) {
-            output.innerHTML += logStr('Recieved', event.data);
-        };
+        socket.on('message', function(msg) {            
+            output.innerHTML += logStr('Recieved', msg);
+        });
+    });
 
-        ws.onclose = function(event){
-            output.innerHTML += logStr('Disconnected', event.code + '-' + event.type);
-        };
-
-        ws.onerror = function(event){
-            output.innerHTML += logStr('Error', event.data);
-        }; 
+     
     }());
 </script>
 </body>
