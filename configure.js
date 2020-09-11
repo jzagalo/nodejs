@@ -24,6 +24,14 @@ module.exports = function(app) {
         app.use(errorHandler());
     }
 
+    app.engine('handle', exphbs.create({
+        defaultLayout: 'main',
+        layoutsDir: app.get('views') + '/layouts',
+        partialsDir: [app.get('views') + '/partials']
+    }).engine);
+
+    app.set('view engine', 'hamdlebars');
+    
     return app;
 }
 
