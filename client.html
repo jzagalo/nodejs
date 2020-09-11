@@ -12,26 +12,26 @@
 <script>
     (function() {
 
-    var socket = io.connect("ws://localhost:8080"),
-    output = document.getElementById('output'),
-    send = document.getElementById('send');
+        var socket = io.connect("ws://localhost:3000"),
+        output = document.getElementById('output'),
+        send = document.getElementById('send');
 
-    function logStr(eventStr, msg){
-        return '<div>' + eventStr + ': ' + msg + '</div>';
-    }
+        function logStr(eventStr, msg){
+            return '<div>' + eventStr + ': ' + msg + '</div>';
+        }
 
-    socket.on('connect', function(){ 
-        send.addEventListener('click', function(event){
-            var msg = document.getElementById('msg').value;            
-            socket.send(msg);           
+        socket.on('connect', function(){
+            send.addEventListener('click', function(event){
+                var msg = document.getElementById('msg').value;
+                socket.send(msg);
+            });
+
+            socket.on('message', function(msg) {
+                output.innerHTML += logStr('Recieved', msg);
+            });
         });
 
-        socket.on('message', function(msg) {            
-            output.innerHTML += logStr('Recieved', msg);
-        });
-    });
 
-     
     }());
 </script>
 </body>
