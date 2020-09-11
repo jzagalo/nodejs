@@ -1,16 +1,10 @@
-var http = require('http');
-var clientHtml = require('fs').readFileSync('./client.html');
+var config = require('./configure.js'),
+    express = require('express');
+var app = config(express());
 
-var plainHttpServer = http.createServer(function(req, res) {
-    res.writeHead(200, {'Content-type': 'text/html'});
-    res.end(clientHtml);
-}).listen(3000);
+app.set('port', process.env.PORT || 3000);
+app.set('view', __dirname + '/views');
 
-var io = require('socket.io').listen(plainHttpServer);
-io.sockets.on('connection', function(socket){
-    socket.on('message', function(msg){
-        if(msg === "Hello"){
-            socket.send('socket.io!');
-        }
-    })
-})
+app.listen(app.get('port'), function(){
+    console.log('Server up: http://localhost:' + app.get('port'));
+});
