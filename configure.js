@@ -7,12 +7,13 @@ var express = require('express'),
     morgan = require('morgan'),
     methodOverride = require('method-override'),
     errorHandler = require('errorhandler'),
+    multer = require('multer'),
     moment = require('moment');
 
 module.exports = function(app) {
     app.use(morgan('dev'));
-    app.use(bodyParser.urlencoded({ 'extended': true }));
-    app.use(bodyParser({ uploadDir: path.join(__dirname, 'public/upload/temp')}))
+    app.use(bodyParser.urlencoded({'extended': true }));
+    app.use(multer({ dest: path.join(__dirname, 'public/upload/temp')}).any());
     app.use(bodyParser.json());
     app.use(methodOverride());
     app.use(cookieParser('some-secret-value-here'));
@@ -34,9 +35,7 @@ module.exports = function(app) {
                 return moment(timestamp).startOf('minute').fromNow();
             }
         }
-    }).engine);
-
-    
+    }).engine);    
     
     return app;
 }
