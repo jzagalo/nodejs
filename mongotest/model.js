@@ -4,7 +4,7 @@ var mongose = require('mongoose'),
 mongose.connect('mongodb://localhost:27017/mongotest');
 mongose.connection.on('open', function(){
     console.log('Mongoose Connected');
-})
+});
 
 var Account = new Schema({
     username: { type: String, unique: true },
@@ -14,7 +14,6 @@ var Account = new Schema({
 });
 
 var AccountModel = mongose.model('Account', Account);
-
 
 module.exports = function() {
     return AccountModel;

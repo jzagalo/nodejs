@@ -6,14 +6,14 @@ var viewModel = {
 };
 
 module.exports = {
-    index: function(req, res) {
+    index: function(req, res) {        
         ImageModel.find({}, {}, {sort: { timestamp: -1 }}, function(err, images){
             if(err) throw err;
-        
-            viewModel.images = images;
-            sidebar(viewModel, function(viewModel){
+
+            viewModel.images = images.map(function(data) { return data.toObject(); });  
+            sidebar(viewModel, function(viewModel){                
                 res.render('index', viewModel);
-            });
+            });            
         });        
     }
 };

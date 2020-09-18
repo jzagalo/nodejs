@@ -28,12 +28,23 @@ module.exports = function(app) {
     app.set('view engine', 'handlebars');
     app.engine('handlebars', exphbs.create({
         defaultLayout: 'main',
-        layoutsDir: app.get('views') + '/layouts',
-        //partialsDir: [app.get('views') + '/partials'],
+        layoutsDir: app.get('views') + '/layouts',       
         helpers: {
             timeago: function(timestamp){
                 return moment(timestamp).startOf('minute').fromNow();
-            }
+            },
+            eachProperty: function(){
+                return function(text, render) {                  
+                    for ( var key in this) {
+                        if (this.hasOwnProperty(key)) {
+                            return render(this[key][text]);
+                        }
+                    }
+                };
+            },
+            splitfilename: function(url){
+                return url.split('.')[0];
+            },
         }
     }).engine);    
     
