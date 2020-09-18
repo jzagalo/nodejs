@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 
 var CommentSchema = new Schema({
     image_id: { type: ObjectId },
-    email: { type: String },
+    email: { type: String, unique:true },
     name: { type: String },
     gravatar: { type: String },
     comment: { type: String },
@@ -17,4 +17,5 @@ CommentSchema.virtual('image')
             }).get(function(){
                 return this._image;
             });
+            
 module.exports = mongoose.model('Comment', CommentSchema);

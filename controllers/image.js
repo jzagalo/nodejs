@@ -1,8 +1,8 @@
-const { Model } = require('mongoose');
 const images = require('./helpers/images');
 
 var fs = require('fs'),
     path = require('path'),
+    md5 = require('md5'),
     sidebar = require('./helpers/sidebar'),
     Models = require('../models'),
     viewModel = {
@@ -26,9 +26,9 @@ module.exports = {
 
                     Models.Comment.find({ image_id: image._id}, {}, { sort: { timestamp: 1 }},
                         function(err, comments){
-                            if(err) { throw err };
+                            if(err) { throw err };                         
                        
-                            viewModel.comments = comments;
+                            viewModel.comments = comments.map(function(com){ return com.toObject(); });
                             sidebar(viewModel, function(viewModel){
                                 res.render('image', viewModel);
                             })
@@ -100,6 +100,19 @@ module.exports = {
            })
     },
     comment: function(req, res) {
-        res.send('The image:comment POST controller');
+        Models.Image.findOne({ filename: { $regex: req.params.image_id}}, function(err, image){
+            if(!err && image){
+
+                var newComment = new Models.Comment(req.body);               
+                newComment.gravatar = md5(newComment.email);
+                newComment.image_id = image._id;
+                newComment.save(function(err, comment){
+                    if(err) throw err;
+                    res.redirect('/images/' + image.uniqueId + '#' + comment._id)
+                })
+            } else {
+                res.redirect('/');
+            }
+        });
     }
 };
