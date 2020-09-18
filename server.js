@@ -8,7 +8,6 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 
 var newUser = new AccountModel({ username: 'randomUser' });
-//newUser.save();
 
 app.listen(app.get('port'), function(){
     mongoClient();

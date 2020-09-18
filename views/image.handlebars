@@ -13,13 +13,13 @@
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-8">
-                <button class="btn btn-success" id="btn-like"  data-id="{{ image.uniqueId }}">
-                    <i class="fa fa-eye"></i>
-                    <strong> {{ image.views }}</strong>
+                <button class="btn btn-success" id="btn-like"  data-id="{{splitfilename image.filename }}">
+                   <i class="fa fa-heart">Like</i> </button> 
+                   <strong class="likes-count">{{ image.likes}}</strong>
+                    &nbsp; - &nbsp;  <i class="fa fa-eye"></i>  <strong> {{ image.views }}</strong>
                     &nbsp;-&nbsp; Posted: <em class="text-muted">
                         {{ timeago image.timestamp }}
-                    </em>
-                </button>
+                    </em>                
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-m-4 text-right">
                 <button class="btn btn-default btn-sm"
-                 id="btn-comment" data-id="{{ image.uniqueId }}">
+                 id="btn-comment" data-id="{{ splitfilename image.filename }}">
                     <i class="fa-fa-comments-o">
                         Post Comment...
                     </i>
@@ -46,7 +46,7 @@
     <div class="panel-body">
         <blockquote id="post-comment">
             <div class="row">
-                <form method="post" action="/images/{{image.uniqueId}}/comment">
+                <form method="post" action="/images/{{ splitfilename image.filename}}/comment">
                     <div class="form-group col-sm-12">
                         <label for="name" class="col-sm-2 control-label">
                             Name:

@@ -8,7 +8,7 @@
         <ul class="media-list">                      
             {{#each sidebar.comments }}
                 <li class="media">
-                    <a href="/images/{{image.uniqueId}}" class="pull-left">
+                    <a href="/images/{{ splitfilename image.filename }}" class="pull-left">
                         <img src="/public/upload/{{ image.filename }}" alt="{{ image.filename }}" width="45" height="45">
                     </a>
                     <div class="media-body">
