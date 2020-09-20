@@ -14,10 +14,11 @@ module.exports = {
                         next(err);
                     });
                 };
-
-                async.each(comments, attachImage, function(err){
+                
+                var allComments = comments.map(function(comm){ return comm.toObject(); });                
+                async.each(allComments, attachImage, function(err){
                     if(err) throw err;
-                    callback(err, comments);
+                    callback(err, allComments);
                 })
         });
     }

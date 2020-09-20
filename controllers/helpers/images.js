@@ -6,8 +6,9 @@ module.exports = {
             {limit: 9, sort: { likes: -1 }},
             function(err, images){
                 if(err) throw err;
-
-                callback(null, images)
+     
+                
+                callback(null, images.map(function(img){ return img.toObject()}))
          })            
     }
 };

@@ -19,8 +19,7 @@ module.exports = {
                 if(err) throw err;
                
                 if(image){
-                    image.views = image.views + 1;
-                    console.log(image);
+                    image.views = image.views + 1;                   
                     viewModel.image = image.toObject();
                     image.save();
 

@@ -3,12 +3,15 @@
         <h3 class="panel-title">
             Lastest Comments
         </h3>
-    </div>
+    </div> 
+    {{ sidebar.comments }}
     <div class="panel-body">
-        <ul class="media-list">                      
+        <ul class="media-list">
             {{#each sidebar.comments }}
+            
+
                 <li class="media">
-                    <a href="/images/{{ splitfilename image.filename }}" class="pull-left">
+                    <a href="/images/{{ image.filename }}" class="pull-left">
                         <img src="/public/upload/{{ image.filename }}" alt="{{ image.filename }}" width="45" height="45">
                     </a>
                     <div class="media-body">

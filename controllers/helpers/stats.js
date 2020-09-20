@@ -35,6 +35,7 @@ module.exports = function (callback) {
       })
   }
  ], function(err, results){
+   
     callback(null, {
       images: results[0],
       comments: results[1],
