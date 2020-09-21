@@ -15,13 +15,12 @@ module.exports = function(viewModel, callback){
             Comments.newest(next);
         }
     ], function(err, results){
-         console.log(results);
             viewModel.sidebar = {
                 stats: results[0],
                 popular: results[1],
                 comments: results[2]
             };
-            
+
             callback(viewModel);
     })
 }

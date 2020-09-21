@@ -3,23 +3,28 @@
         <h2 class="panel-title">
             {{ image.title }}
         </h2>
-    </div>    
+    </div>
     <div class="panel-heading">
-        <p>{{ image.description }}</p>   
+        <p>{{ image.description }}</p>
         <div class="col-m-12 text-center">
             <img src="/public/upload/{{image.filename}}" class="img-thumbnail">
-        </div>     
+        </div>
     </div>
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-8">
                 <button class="btn btn-success" id="btn-like"  data-id="{{splitfilename image.filename }}">
-                   <i class="fa fa-heart">Like</i> </button> 
+                   <i class="fa fa-heart">Like</i> </button>
                    <strong class="likes-count">{{ image.likes}}</strong>
                     &nbsp; - &nbsp;  <i class="fa fa-eye"></i>  <strong> {{ image.views }}</strong>
-                    &nbsp;-&nbsp; Posted: <em class="text-muted">
+                    &nbsp; - &nbsp; Posted: <em class="text-muted">
                         {{ timeago image.timestamp }}
-                    </em>                
+                    </em>
+            </div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-danger" id="btn-delete" data-id="{{ splitfilename image.filename }}">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -35,7 +40,7 @@
             </div>
             <div class="col-m-4 text-right">
                 <button class="btn btn-default btn-sm"
-                 id="btn-comment" data-id="{{ splitfilename image.filename }}">
+                 id="btn-comment" data-id="{{ image.filename }}">
                     <i class="fa-fa-comments-o">
                         Post Comment...
                     </i>
@@ -80,17 +85,17 @@
                 </form>
             </div>
         </blockquote>
-        <ul class="media-list">           
+        <ul class="media-list">
             {{#each comments }}
-              
+
                 <li class="media">
                     <a href="#" class="pull-left">
-                        <img src="http://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45" alt="" 
+                        <img src="http://www.gravatar.com/avatar/{{gravatar}}?d=monsterid&s=45" alt=""
                         class="media-object img-circle">
                     </a>
                     <div class="media-body">
                         {{comment}}
-                        <br/> 
+                        <br/>
                         <strong class="media-heading"> {{name}} </strong>
                         <small class="text-muted"> {{timeago timestamp}} </small>
                     </div>
@@ -98,4 +103,4 @@
             {{/each}}
         </ul>
     </div>
-</div> 
+</div>

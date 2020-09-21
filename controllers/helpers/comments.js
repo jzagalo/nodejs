@@ -10,12 +10,12 @@ module.exports = {
                     models.Image.findOne({ _id: comment.image_id }, function(err, image){
                         if(err) throw err;
 
-                        comment.image = image;
+                        comment.image = image.toObject();
                         next(err);
                     });
                 };
-                
-                var allComments = comments.map(function(comm){ return comm.toObject(); });                
+
+                var allComments = comments.map(function(comm){ return comm.toObject(); });
                 async.each(allComments, attachImage, function(err){
                     if(err) throw err;
                     callback(err, allComments);
